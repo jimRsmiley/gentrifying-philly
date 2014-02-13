@@ -1,0 +1,193 @@
+<div>
+    
+    <div id="map"></div>
+    
+    <div id="popup">
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+
+It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+
+ 
+Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+
+There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</div>
+    
+    <div class="info legend leaflet-control">
+        <p>Percent Change</p>
+        <i style="background:#e31a1c"></i> > 30<br>
+        <i style="background:#fd8d3c"></i> 20 to 30<br>
+        <i style="background:#fecc5c"></i> 10 to 20<br>
+        <i style="background:#ffffb2"></i> 0 to 10<br>
+        
+        <i style="background:#f1eef6"></i> 0 to -10<br>
+        <i style="background:#bdc9e1"></i> -10 to -20<br>
+        <i style="background:#74a9cf"></i> -20 to -30<br>
+        <i style="background:#0570b0"></i> < -30
+    </div>
+</div>
+
+<script>
+
+var spinner;
+
+function showDescriptionPopup() {
+    $('#popup').jqmShow();
+}
+
+function loadData(map,url,description) {
+    
+    $.ajax({
+        url: url,
+        context: document.body,
+        success: function( data ) {
+            console.log( 'loaded data from: ' + window.location.origin + url );
+
+            // set percent change
+            jQuery.each( data.features, function(i, val) {
+                y2012 = val.properties.y2012;
+                val.properties.y2012 = ( y2012 === null ? 0 : y2012 );
+                
+                y2013 = val.properties.y2013;
+                val.properties.y2013 = ( y2013 === null ? 0 : y2013 );
+                
+                percentChange = ( y2013-y2012 ) / ( y2012 ) *100;
+                percentChange = percentChange.toFixed(1);
+                
+                if( percentChange === 'Infinity' ) {
+                    percentChange = 'n/a';
+                }
+            
+                val.properties.percentChange = percentChange;
+            });
+
+            // control that shows state info on hover
+            var info = L.control();
+
+            info.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+
+            info.update = function (props) {
+                this._div.innerHTML = '<?php echo $this->partial('snippets/project-description.phtml') ?>' +  (props ?
+                    '<b><h3 class="neighborhood-name">' + props.neighborhood_name + '</h3></b><br />properties under construction<br/>2012: ' + props.y2012 + '<br/>2013: ' + props.y2013 + '<br/>percent change: <b>' + props.percentChange + '&#37;</b>'
+                    : 'Hover over a neighborhood');
+            };
+
+            info.addTo(map);
+
+
+            // get color depending on population density value
+            function getColor(percentChange) {
+                return percentChange === 'n/a' ? "#FFF" :
+                       percentChange > 30  ? '#e31a1c' :
+                       percentChange > 20  ? '#fd8d3c' :
+                       percentChange > 10  ? '#fecc5c' :
+                       percentChange > 0   ? '#ffffb2' :
+
+                       percentChange < -30 ? '#0570b0' :
+                       percentChange < -20 ? '#74a9cf' :
+                       percentChange < -10 ? '#bdc9e1' :
+                       percentChange < 0   ? '#f1eef6' :
+
+                    '#FFF';
+            }
+
+            function style(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: 'white',
+                    dashArray: '3',
+                    fillOpacity: 1,
+                    fillColor: getColor(feature.properties.percentChange)
+                };
+            }
+
+            function highlightFeature(e) {
+                var layer = e.target;
+
+                layer.setStyle({
+                    weight: 5,
+                    color: '#666',
+                    dashArray: '',
+                    fillOpacity: 0.7
+                });
+
+                if (!L.Browser.ie && !L.Browser.opera) {
+                    layer.bringToFront();
+                }
+
+                info.update(layer.feature.properties);
+            }
+
+            var geojson;
+
+            function resetHighlight(e) {
+                geojson.resetStyle(e.target);
+                info.update();
+            }
+
+            function onEachFeature(feature, layer) {
+//                console.log( "lkadjfsdf" );
+                layer.on({
+                    mouseover: highlightFeature,
+                    mouseout: resetHighlight,
+                });
+            }
+
+            geojson = L.geoJson(data, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(map);
+
+            map.fitBounds( geojson, { padding: [0,0] } );
+            map.spin(false);
+        }
+      });
+}
+
+$( document ).ready( function() {
+    
+    var opts = {
+        lines: 17, // The number of lines to draw
+        length: 40, // The length of each line
+        width: 30, // The line thickness
+        radius: 60, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 48, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 0.8, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: true, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
+    
+    // initialize the jqModal popup
+    $('#popup').jqm();
+    
+    
+    var map = L.map('map');
+    
+    map.spin(true, opts);
+    
+    var url = "/permit-heat-mapper/neighborhood-permit-count/location-counts-by-neighborhood-as-geojson";
+    
+    L.tileLayer('http://{s}.tile.cloudmade.com/8c0d0781b408405ea240b26856e5fdf2/{styleId}/256/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18,
+        styleId: 28046
+    }).addTo(map);
+    map.attributionControl.addAttribution('Neighborhood borders provided by <a href="http://www.azavea.com/blogs/newsletter/v8i2/philly-neighborhoods-map/">Azavea</a>');
+    
+    loadData(map,url);
+  });
+</script>

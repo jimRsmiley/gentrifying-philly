@@ -1,0 +1,74 @@
+html body {
+    padding: 0;
+    margin: 0;
+    color: #1E2F3F;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+}
+
+.credit {
+    text-align: center;
+    font-size: .85em;
+    margin: 0;
+    padding: 0;
+    height: 15px;
+}
+
+h1 {
+    color: #1E2F3F;
+}
+
+a href {
+        color: #1E2F3F;
+}
+                
+#map {
+    width: 100%;
+    position: absolute;
+    top:0;
+    bottom: 0;
+}
+
+
+.info {
+    margin-right: 30px;
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.info.leaflet-control {
+    width: 350px;
+    background: white;
+}
+
+.info.legend {
+    width: 125px;
+}
+
+.legend {
+    background: white;
+    position: absolute;
+    bottom: 40px;
+    right: 5px;
+    margin-right: 10px;
+    text-align: left;
+    line-height: 18px;
+    color: #555;
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+#popup {
+    height: 500px;
+    width: 500px;
+    background: white;
+    visibility: hidden;
+}
