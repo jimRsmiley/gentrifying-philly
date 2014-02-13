@@ -5,24 +5,6 @@ Premise
 =======
 By mapping the change in applications for building permits over time, we can see which areas are seeing revitilazation
 
-Data
-====
-
-wget 'http://services.phila.gov/PhillyApi/Data/v1.0/permits?orderby=permit_type_name&$expand=locations&$format=json' -O all-permits.json
-
-## Data Creation
-
-Test Points
-
-Philadelphia needed to divided into a series of buffered points to query PostGIS
-to find the count of permits per area.
-
-UPDATE test_point SET bufferedgeom = ST_Buffer( test_point.point, .0071 ) WEHRE set_num = 4;
-
-So we have test points, their geometry buffer, and the permits that are inside of them, we need to count those permits, in two dates.
-
-
-
 
 Creating The Data
 =================
@@ -31,9 +13,9 @@ Creating The Data
 
 2. scripts/load_permits_to_postgis.php was run to import them all into PostGIS
 
-<pre><code>
-TRUNCATE TABLE neighborhood_location_count;
+The following code uses spatial joins to get the location counts of all of the neighborhoods in Philly.
 
+<pre><code>
 INSERT INTO neighborhood_location_count (
 
 select a.name, a.polygon, y2007, y2008, y2009, y2010, y2011, y2012, y2013
@@ -144,11 +126,14 @@ ON a.name = g.name
 );
 </code></pre>
 
+The data is then converted into geojson for LeafletJS display with:
 
-Useful SQL queries
-==================
-
-
-
-SELECT ST_AsGeoJSON(ST_Collect(test_point.point)) FROM test_point WHERE set_num = 2
-will pull back geoJSON of the test points, go to 
+<pre><code>
+SELECT row_to_json( fc )
+FROM ( SELECT 'FeatureCollection' as type, array_to_json(array_agg(f)) as features
+FROM( SELECT 'Feature' as type
+    , ST_AsGeoJSON( neighborhood_permit_counts.neighborhood_polygon)::json AS geometry
+    , row_to_json( (SELECT l FROM ( SELECT id,neighborhood_name,y2007,y2008,y2009,y2010,y2011,y2012,y2013) AS l
+    )) AS properties
+FROM neighborhood_permit_counts ) as f ) as fc;
+</code></pre>
