@@ -42,3 +42,6 @@ pricontactzip,x,y,locationid,streetnumber,streetname,streetsuffix,city,
 state,zip,censustract,councildistrict,condounit,unitnumber,censusblock,
 ward,permitnumber,lat,lng,updateddatetime) 
 FROM '/tmp/permits.csv' DELIMITER ',' CSV HEADER;
+
+
+AND applicationtype NOT IN ('ZP_ZON/USE','ZP_ZONING','ZP_USE','BP_ADMINST','ZP_ZON/USE')

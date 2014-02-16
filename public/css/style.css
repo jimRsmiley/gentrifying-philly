@@ -2,23 +2,31 @@ html body {
     padding: 0;
     margin: 0;
     color: #1E2F3F;
-    font: 14px/16px Arial, Helvetica, sans-serif;
+    /*font: 14px/16px Arial, Helvetica, sans-serif;*/
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
 }
 
 .credit {
     text-align: center;
-    font-size: .85em;
+    font-size: 1em;
     margin: 0;
     padding: 0;
-    height: 15px;
 }
 
-h1 {
+.about {
+    padding-top: 50px;
+    margin: 0 auto;
+}
+
+h2 {
+    font-family: 'Droid Serif', Georgia, Times, serif;
     color: #1E2F3F;
+    margin: 0;
+    padding: 0;
 }
 
 a href {
-        color: #1E2F3F;
+    color: #1E2F3F;
 }
                 
 #map {
@@ -30,20 +38,21 @@ a href {
 
 
 .info {
-    margin-right: 30px;
     padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
+    font-size: 14px/16px;
     background: rgba(255,255,255,0.8);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
 
 .info.leaflet-control {
+    margin-right: 45px;
     width: 350px;
     background: white;
 }
 
 .info.legend {
+    margin-right: 45px;
     width: 125px;
 }
 
@@ -71,4 +80,17 @@ a href {
     width: 500px;
     background: white;
     visibility: hidden;
+}
+
+.neighborhood-name {
+    margin: 0;
+    padding: 0;
+}
+.neighborhood-info {
+    margin: 0;
+    padding: 0;
+}
+
+.percent-info {
+    font-size: 1.1em;
 }

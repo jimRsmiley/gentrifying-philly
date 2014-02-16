@@ -55,6 +55,16 @@ return array(
                     ),
                 ),
             ),
+            'about' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/about',
+                    'defaults' => array(
+                        'controller' => 'PermitHeatMapper\Controller\Index',
+                        'action'     => 'about',
+                    ),
+                ),
+            ),
             'permit' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
