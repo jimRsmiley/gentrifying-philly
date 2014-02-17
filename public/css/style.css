@@ -14,11 +14,11 @@ html body {
 }
 
 .about {
-    padding-top: 50px;
+    padding-top: 20px;
     margin: 0 auto;
 }
 
-h2 {
+.project-description h2 {
     font-family: 'Droid Serif', Georgia, Times, serif;
     color: #1E2F3F;
     margin: 0;
