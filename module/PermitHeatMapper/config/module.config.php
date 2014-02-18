@@ -65,6 +65,26 @@ return array(
                     ),
                 ),
             ),
+            'data' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/data',
+                    'defaults' => array(
+                        'controller' => 'PermitHeatMapper\Controller\Index',
+                        'action'     => 'show-data',
+                    ),
+                ),
+            ),
+            'average-change' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/average-change',
+                    'defaults' => array(
+                        'controller' => 'PermitHeatMapper\Controller\Index',
+                        'action'     => 'gentrifyer',
+                    ),
+                ),
+            ),
             'permit' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

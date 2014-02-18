@@ -1,4 +1,6 @@
 <?php
+
+
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
@@ -23,7 +25,10 @@ return array(
         // modules are loaded. These effectively override configuration
         // provided by modules themselves. Paths may use GLOB_BRACE notation.
         'config_glob_paths' => array(
-            'config/autoload/{,*.}{global,local}.php',
+            //'config/autoload/{,*.}{global,local}.php',
+            'config/autoload/global.php',
+            'config/autoload/local.php',
+            'config/autoload/'.(getenv('APPLICATION_ENV') ?: 'production').'.{,*}.php',
         ),
 
         // Whether or not to enable a configuration cache.

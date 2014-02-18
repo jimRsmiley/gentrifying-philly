@@ -1,0 +1,42 @@
+<div  class='about row'>
+    <div  class='col-md-6 col-md-offset-3'>
+        <h3>The Data</h3>
+        <p><a href="/"><- Back to the map</a></p>
+        <p>The number of locations per Philadelphia neighborhood which had construction permits issued, by year</p>
+        <table id="neighborhood_count_table" class="tablesorter">
+            <thead>
+                <th>Neighborhood Name</th>
+                <th>2007</th>
+                <th>2008</th>
+                <th>2009</th>
+                <th>2010</th>
+                <th>2011</th>
+                <th>2012</th>
+                <th>2013</th>
+            </thead>
+            <tbody>
+                <?php foreach( $this->locationData as $row ) : ?>
+                <tr>
+                    <td><?=$row['neighborhood_name']?></td>
+                    <td><?=$row['y2007']?></td>
+                    <td><?=$row['y2008']?></td>
+                    <td><?=$row['y2009']?></td>
+                    <td><?=$row['y2010']?></td>
+                    <td><?=$row['y2011']?></td>
+                    <td><?=$row['y2012']?></td>
+                    <td><?=$row['y2013']?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p><a href="/"><- Back to the map</a></p>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() 
+    { 
+        $("#neighborhood_count_table").tablesorter( {sortList: [[0,0]]} ); 
+    } 
+); 
+</script>

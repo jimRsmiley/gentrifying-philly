@@ -7,25 +7,12 @@
             <p>A <a href="http://codeforphilly.com/projects/Mapping_gentrification_and_decline_of_Philly_neighborhoods">Code for Philly</a> project by <a href="http://twitter.com/jimRsmiley">@jimRsmiley</a>    </p></div>
             <div class="project-description">
                 <h2 style="text-align: center">Gentrifying Philly</h2>
-                <p>
-                    A change in the number of properties issued construction permits 
-                    over time might indicate a neighborhood that is improving 
-                    or getting worse.   [ <a href="/about">more on the project</a> ]
-                </p>
-                <p><a href='/average-change'>View a map comparing the last two years against the previous 5 years</a></p>
-                <p><a href="/data">View the data in table form</a></p>
             </div>
-            <div style="padding: 12px 0">
-                <form>
-                    <label>Select a year comparison: </label>
-                    <select id="yearselect">
-                        <option value='{"method":"year-compare","start":2012,"end":2013}'>2012 to 2013</option>
-                        <option value='{"method":"year-compare","start":2011,"end":2012}'>2011 to 2012</option>
-                        <option value='{"method":"year-compare","start":2010,"end":2011}'>2010 to 2011</option>
-                        <option value='{"method":"year-compare","start":2009,"end":2010}'>2008 to 2009</option>
-                        <option value='{"method":"year-compare","start":2008,"end":2009}'>2007 to 2008</option>
-                    </select>
-                </form>
+        
+            <div>
+                <p style="padding-top:5px"><a href='/'>Back to main map</a></p>
+                <p><a href="/data">View the data in table form</a></p>
+                <p>For locations having taken out construction permits, the average of 2007 through 2011, compared to the average of 2012 and 2013</p>
             </div>
             <div class="neighborhood-info"><b>Hover over a neighborhood</b></div>
     </div>
@@ -52,28 +39,22 @@ var endYear;
 
 function loadData(map,start,end) {
 
-    
-    console.log(geoJsonLayer);
     if( typeof geoJsonLayer !== 'undefined' )
         map.removeLayer( geoJsonLayer );
     
-    startYear = start;
-    endYear = end;
 
     jQuery.each( geoJson.features, function(i, val) {
-        startYearCount = val.properties['y'+start];
-        val.properties['y'+start] = ( startYearCount === null ? 0 : startYearCount );
-
-        endYearCount = val.properties['y'+end];
-        val.properties['y'+end] = ( endYearCount === null ? 0 : endYearCount );
-        percentChange = ( endYearCount-startYearCount ) / ( startYearCount ) *100;
-        percentChange = percentChange.toFixed(1);
-
+        percentChange = val.properties.gentrifyer;
+        
         if( percentChange === 'Infinity' ) {
             percentChange = 'n/a';
         }
+        else if( percentChange === null ) {
+            percentChange = 0;
+        }
 
-        val.properties.percentChange = percentChange;
+        console.log( val.properties.neighborhood_name + " " + percentChange.toFixed(2) );
+        val.properties.percentChange = percentChange.toFixed(2);
     });
     
     update = function (props) {
@@ -81,9 +62,8 @@ function loadData(map,start,end) {
         $('.neighborhood-info').html( function() {
             return (props ? '<b><h3 class="neighborhood-name">' + props.neighborhood_name + '</h3></b>'
             +'<div class="neighborhood-info">'
-            + 'number of locations issued permits<br/>'
-            + startYear + ': ' + props["y"+startYear] + '<br/>'
-            + endYear + ': ' + props["y"+endYear] + '<br/>'
+            + '<span class="percent-info">Average yearly permits 2007 through 2011: ' + props.avg_2007_to_2011 + '</span><br/>'
+            + '<span class="percent-info">Average yearly permits 2012 and 2013: ' + props.avg_2012_and_2013 + '</span><br/>'
             + '<span class="percent-info">percent change: <b>' + props.percentChange + '&#37;</b></span>'
             +'<div>'
             : '<b>Hover over a neighborhood</b>');
@@ -200,17 +180,8 @@ $( document ).ready( function() {
         success: function( data ) {
             geoJson = data;
             console.log( 'loaded data from: ' + window.location.origin + url );
-            loadData(map,2012,2013);
+            loadData(map);
         }
-    });
-    
-    $("select").change( function() {
-        var selectedOptions = $( "select option:selected" );
-        console.log('they want to change years');
-        json = JSON.parse(selectedOptions[0].value);
-        console.log( json );
-        loadData(map,json.start,json.end);
-        map.spin(false, getSpinnerOptions() );
     });
   });
 </script>
