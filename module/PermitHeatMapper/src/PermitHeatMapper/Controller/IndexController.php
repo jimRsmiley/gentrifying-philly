@@ -12,6 +12,11 @@ class IndexController extends BaseController
         return new ViewModel();
     }
     
+    public function altVizAction()
+    {
+        return new ViewModel();
+    }
+    
     public function aboutAction() {
     
     }

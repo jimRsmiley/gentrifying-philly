@@ -112,7 +112,7 @@ function loadData(map,start,end) {
             opacity: 1,
             color: 'white',
             dashArray: '3',
-            fillOpacity: 1,
+            fillOpacity: .5,
             fillColor: getColor(feature.properties.percentChange)
         };
     }
@@ -189,7 +189,7 @@ $( document ).ready( function() {
     L.tileLayer('http://{s}.tile.cloudmade.com/8c0d0781b408405ea240b26856e5fdf2/{styleId}/256/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
         maxZoom: 18,
-        styleId: 28046
+        styleId: 997
     }).addTo(map);
     map.attributionControl.addAttribution('Neighborhood borders provided by <a href="http://www.azavea.com/blogs/newsletter/v8i2/philly-neighborhoods-map/">Azavea</a>');
     

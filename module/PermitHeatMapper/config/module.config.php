@@ -55,6 +55,16 @@ return array(
                     ),
                 ),
             ),
+            'alt-viz' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/alt-viz',
+                    'defaults' => array(
+                        'controller' => 'PermitHeatMapper\Controller\Index',
+                        'action'     => 'alt-viz',
+                    ),
+                ),
+            ),
             'about' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

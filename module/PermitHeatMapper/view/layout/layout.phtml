@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <?php echo $this->headTitle('Gentrifying Philly')->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headTitle('Philadelphia Construction Permit Heatmap')->setSeparator(' - ')->setAutoEscape(false) ?>
 
         <?php echo $this->headMeta()
             ->appendName('viewport', 'width=device-width, initial-scale=1.0')
@@ -13,6 +13,10 @@
 
         <!--- APPLICATION_ENV
         <?php echo (getenv('APPLICATION_ENV') ?: 'production') . "\n"; ?>
+        ------------------------------->
+        
+        <!--
+        <?php echo getcwd(); ?>
         ------------------------------->
     </head>
     <body>
