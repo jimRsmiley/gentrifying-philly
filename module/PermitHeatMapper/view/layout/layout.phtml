@@ -9,7 +9,7 @@
             ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
         ?>
 
-        <?php echo $this->partial("snippets/header-includes.phtml"); ?>
+        <?php echo $this->partial("layout/header-includes.phtml"); ?>
 
         <!--- APPLICATION_ENV
         <?php echo (getenv('APPLICATION_ENV') ?: 'production') . "\n"; ?>
@@ -22,5 +22,5 @@
     <body>
         <?php echo $this->content; ?>
     </body>
-    <?php echo $this->partial("snippets/google-analytics.phtml"); ?>
+    <?php echo $this->partial("layout/google-analytics.phtml"); ?>
 </html>

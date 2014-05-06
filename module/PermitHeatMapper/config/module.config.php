@@ -91,10 +91,11 @@ return array(
                     'route'    => '/average-change',
                     'defaults' => array(
                         'controller' => 'PermitHeatMapper\Controller\Index',
-                        'action'     => 'gentrifyer',
+                        'action'     => 'average-change',
                     ),
                 ),
             ),
+            
             'permit' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(

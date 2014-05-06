@@ -17,16 +17,14 @@ class IndexController extends BaseController
         return new ViewModel();
     }
     
-    public function aboutAction() {
-    
-    }
+    public function aboutAction() {}
     
     public function showDataAction() {
         $locationData = $this->neighborhoodPermitCountMapper()->fetchAll();
         return new ViewModel( array( 'locationData' => $locationData ) );
     }
     
-    public function gentrifyerAction() {
+    public function averageChangeAction() {
         
     }
 }
