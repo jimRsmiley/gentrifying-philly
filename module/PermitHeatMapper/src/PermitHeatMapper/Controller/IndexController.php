@@ -7,15 +7,9 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends BaseController
 {
-    public function indexAction()
-    {
-        return new ViewModel();
-    }
+    public function yearlyChangeAction() {}
     
-    public function altVizAction()
-    {
-        return new ViewModel();
-    }
+    public function altVizAction() {}
     
     public function aboutAction() {}
     
@@ -24,7 +18,5 @@ class IndexController extends BaseController
         return new ViewModel( array( 'locationData' => $locationData ) );
     }
     
-    public function averageChangeAction() {
-        
-    }
+    public function averageChangeAction() {}
 }

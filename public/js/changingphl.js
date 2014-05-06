@@ -1,38 +1,69 @@
-$( document ).ready( function() {
-    $(".btn-minimize").click(function(){
-        $(this).toggleClass('btn-plus');
-        $(".project-description").slideToggle();
+style = function(feature) {
+        var getColor = function(percentChange) {
+            return percentChange === 'n/a' ? "#FFF" :
+                   percentChange > 30  ? '#e31a1c' :
+                   percentChange > 20  ? '#fd8d3c' :
+                   percentChange > 10  ? '#fecc5c' :
+                   percentChange > 0   ? '#ffffb2' :
+
+                   percentChange < -30 ? '#0570b0' :
+                   percentChange < -20 ? '#74a9cf' :
+                   percentChange < -10 ? '#bdc9e1' :
+                   percentChange < 0   ? '#f1eef6' :
+
+                '#FFF';
+        }
+        
+        return {
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 1,
+            fillColor: getColor(feature.properties.percentChange)
+        };
+    };
+
+onEachFeature = function(feature, layer) {
+        layer.on({
+            mouseover: highlightFeature,
+            mouseout: resetHighlight,
+        });
+    };
+    
+highlightFeature = function(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
     });
-    $( ".draggable" ).draggable();
-});
 
+    if (!L.Browser.ie && !L.Browser.opera) {
+        layer.bringToFront();
+    }
 
-var spinner;
+    self.update(layer.feature.properties);
+};
 
-var startYear;
-var endYear;
-
-
-
-
-
-var geoJson;
-var geoJsonLayer;
-
-
+resetHighlight = function(e) {
     
+    if( typeof self.geoJsonLayer !== 'undefined' )
+        self.geoJsonLayer.resetStyle(e.target);
     
+    self.update();
+};
     
-    
-  
 var ChangingPhlMap = L.Map.extend( {
       
+    locationCountsUrl : "/permit-heat-mapper/neighborhood-permit-count/location-counts-by-neighborhood-as-geojson",
+    
+    self : this,
+    
     addStreetsLayer : function() {
-        
         this.setView([39.95058520078959, -75.14893589832354], 11);
-
-        //map.addMapboxLayer();
-        //map.loadData();
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
                 maxZoom: 18,
                 attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | ' +
@@ -41,38 +72,8 @@ var ChangingPhlMap = L.Map.extend( {
                     'Neighborhood borders provided by <a href="http://www.azavea.com/blogs/newsletter/v8i2/philly-neighborhoods-map/">Azavea</a>',
                 id: 'jimrsmiley.i5pbfdje'
         }).addTo(this);
-    }
-} );
-
-var YearlyChangeMap = ChangingPhlMap.extend( {
-
-    locationCountsUrl : "/permit-heat-mapper/neighborhood-permit-count/location-counts-by-neighborhood-as-geojson",
-    
-    loadDataM : function() {
-        self = this;
-        
-        self.spin(true, self.getSpinnerOptions() );
-
-        $.ajax({
-            url: self.locationCountsUrl,
-            context: document.body,
-            success: function( data ) {
-                geoJson = data;
-                console.log( 'loaded data from: ' + window.location.origin + self.locationCountsUrl );
-                self.loadData(self,2012,2013);
-            }
-        });
-
-        $("select").change( function() {
-            var selectedOptions = $( "select option:selected" );
-            console.log('they want to change years');
-            json = JSON.parse(selectedOptions[0].value);
-            console.log( json );
-            loadData(self,json.start,json.end);
-            self.spin(false, self.getSpinnerOptions() );
-        });
     },
-
+    
     getSpinnerOptions : function() {
         return {
             lines: 17, // The number of lines to draw
@@ -92,6 +93,34 @@ var YearlyChangeMap = ChangingPhlMap.extend( {
             top: 'auto', // Top position relative to parent in px
             left: 'auto' // Left position relative to parent in px
         };
+    },
+} );
+
+var YearlyChangeMap = ChangingPhlMap.extend( {
+    
+    loadDataM : function() {
+        var self = this;
+        self.spin(true, this.getSpinnerOptions() );
+
+        $.ajax({
+            url: this.locationCountsUrl,
+            context: self,
+            //context: document.body,
+            success: function( data ) {
+                geoJson = data;
+                console.log( 'loaded data from: ' + window.location.origin + self.locationCountsUrl );
+                self.loadData(self,2012,2013);
+            }
+        });
+
+        $("select").change( function() {
+            var selectedOptions = $( "select option:selected" );
+            console.log('they want to change years');
+            json = JSON.parse(selectedOptions[0].value);
+            console.log( json );
+            self.loadData(self,json.start,json.end);
+            self.spin(false, self.getSpinnerOptions() );
+        });
     },
     
     loadData : function(map,start,end) {
@@ -133,70 +162,70 @@ var YearlyChangeMap = ChangingPhlMap.extend( {
                 });
         };
 
-        // get color depending on population density value
-        function getColor(percentChange) {
-            return percentChange === 'n/a' ? "#FFF" :
-                   percentChange > 30  ? '#e31a1c' :
-                   percentChange > 20  ? '#fd8d3c' :
-                   percentChange > 10  ? '#fecc5c' :
-                   percentChange > 0   ? '#ffffb2' :
-
-                   percentChange < -30 ? '#0570b0' :
-                   percentChange < -20 ? '#74a9cf' :
-                   percentChange < -10 ? '#bdc9e1' :
-                   percentChange < 0   ? '#f1eef6' :
-
-                '#FFF';
-        }
-
-        function style(feature) {
-            return {
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 1,
-                fillColor: getColor(feature.properties.percentChange)
-            };
-        }
-
-        function highlightFeature(e) {
-            var layer = e.target;
-
-            layer.setStyle({
-                weight: 5,
-                color: '#666',
-                dashArray: '',
-                fillOpacity: 0.7
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera) {
-                layer.bringToFront();
-            }
-
-            update(layer.feature.properties);
-        }
-
-        var geojson;
-
-        function resetHighlight(e) {
-            geoJsonLayer.resetStyle(e.target);
-            update();
-        }
-
-        function onEachFeature(feature, layer) {
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-            });
-        }
-
         geoJsonLayer = L.geoJson(geoJson, {
             style: style,
             onEachFeature: onEachFeature
-        }).addTo(map);
+        }).addTo(this);
 
-        map.fitBounds( geoJsonLayer, { padding: [0,0] } );
-        map.spin(false);
+        this.fitBounds( geoJsonLayer, { padding: [0,0] } );
+        this.spin(false);
     }
+} );
+
+var AverageChangeMap = ChangingPhlMap.extend( {
+    
+    locationCountsUrl : "/permit-heat-mapper/neighborhood-permit-count/location-counts-by-neighborhood-as-geojson",
+    
+    geojsonLayer : null,
+    geojson : null,
+    initData : function() {
+        var self = this;
+        
+        this.spin(true, this.getSpinnerOptions() );
+        $.ajax({
+            url: this.locationCountsUrl,
+            context: self,
+            success: function( data ) {
+                self.geoJson = data;
+                console.log( 'loading data from: ' + window.location.origin + this.locationCountsUrl );
+                if( typeof this.geoJsonLayer !== 'undefined' )
+                    this.removeLayer( this.geoJsonLayer );
+
+                jQuery.each( this.geoJson.features, function(i, val) {
+                    percentChange = val.properties.gentrifyer;
+
+                    if( percentChange === 'Infinity' ) {
+                        percentChange = 'n/a';
+                    }
+                    else if( percentChange === null ) {
+                        percentChange = 0;
+                    }
+
+                    val.properties.percentChange = percentChange.toFixed(2);
+                });
+
+                update = function (props) {
+
+                    $('.neighborhood-info').html( function() {
+                        return (props ? '<b><h3 class="neighborhood-name">' + props.neighborhood_name + '</h3></b>'
+                        +'<div class="neighborhood-info">'
+                        + '<span class="percent-info">Average yearly permits 2007 through 2011: ' + props.avg_2007_to_2011 + '</span><br/>'
+                        + '<span class="percent-info">Average yearly permits 2012 and 2013: ' + props.avg_2012_and_2013 + '</span><br/>'
+                        + '<span class="percent-info">percent change: <b>' + props.percentChange + '&#37;</b></span>'
+                        +'<div>'
+                        : '<b>Hover over a neighborhood</b>');
+                        });
+                };
+
+                self.geoJsonLayer = L.geoJson(self.geoJson, {
+                    style: style,
+                    onEachFeature: onEachFeature
+                }).addTo(self);
+
+                console.log( self.geoJsonLayer );
+                self.fitBounds( self.geoJsonLayer, { padding: [0,0] } );
+                self.spin(false);
+            }
+        });    
+    }, // end initData
 } );

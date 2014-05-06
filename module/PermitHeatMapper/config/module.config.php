@@ -51,7 +51,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'PermitHeatMapper\Controller\Index',
-                        'action'     => 'index',
+                        'action'     => 'yearly-change',
                     ),
                 ),
             ),
