@@ -1,3 +1,5 @@
+*.swp
+composer.phar
 nbproject
 ._*
 .~lock.*
@@ -8,3 +10,4 @@ nbproject
 .settings
 composer.lock
 vendor/bin
+vendor
