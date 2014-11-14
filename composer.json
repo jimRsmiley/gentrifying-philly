@@ -10,15 +10,14 @@
     "require": {
         "php": ">=5.3.3",
                 
-        "zendframework/zendframework": "2.2.*",
+        "zendframework/zendframework": "2.2.0",
         "zendframework/zend-developer-tools": "dev-master",
         
         "bjyoungblood/bjy-profiler": "dev-master",
         
-        "doctrine/spatial": "dev-master",
         
-        "doctrine/doctrine-module": "dev-master",
-        "doctrine/doctrine-orm-module": "dev-master",
+        "doctrine/doctrine-module": "0.7.2",
+        "doctrine/doctrine-orm-module": "0.7",
         "creof/doctrine2-spatial": "dev-fix-backport",
         "jsor/proj4php": "dev-master"
     }
