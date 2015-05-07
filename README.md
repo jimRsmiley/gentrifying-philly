@@ -1,6 +1,9 @@
 Heat mapping Philadelphia building permits over time
 ---------------
 
+[http://constructionpermits.phl.io](http://constructionpermits.phl.io)
+
+
 Premise
 =======
 By mapping the change in applications for building permits over time, we can see which areas are seeing revitilazation
