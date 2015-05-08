@@ -12,6 +12,8 @@ By mapping the change in applications for building permits over time, we can see
 Creating The Data
 =================
 
+Data was pulled down from [PHLAPI's L&I portal](http://phlapi.com/licenseapi.html).
+
 1. scripts/get_permits_from_phlapi.php was run to query the phlAPI to pull down all of L&I's permits
 
 2. scripts/load_permits_to_postgis.php was run to import them all into PostGIS
