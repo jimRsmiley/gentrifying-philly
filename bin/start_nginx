@@ -1,3 +1,4 @@
 #!/bin/sh
 
-sudo docker run -v ~/src:/var/www:rw -p 80:80 -d constper/nginx /sbin/my_init
+sudo docker rm -f nginx_from_start || true
+sudo docker run --name nginx_from_start -v ~/src:/var/www/app:rw -p 80:80 -d constperm/nginx /sbin/my_init
