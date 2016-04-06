@@ -7,6 +7,10 @@ use Zend\View\Model\ViewModel;
 
 class IndexController extends BaseController
 {
+	public function indexAction() {
+		die("in the index!");
+	}
+
     public function yearlyChangeAction() {}
     
     public function altVizAction() {}

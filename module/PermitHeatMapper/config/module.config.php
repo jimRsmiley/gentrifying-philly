@@ -43,6 +43,21 @@ return array(
             )
         ),
     ),
+	'console' => array(
+		'router' => array(
+		    'routes' => array(
+			'initdb' => array(
+			    'options' => array(
+				'route'    => 'initdb',
+				'defaults' => array(
+				    'controller' => 'PermitHeatMapper\Controller\Index',
+				    'action'     => 'index'
+				)
+			    )
+			)
+		    )
+		)
+	),
     'router' => array(
         'routes' => array(
             'home' => array(
@@ -240,12 +255,5 @@ return array(
         'strategies' => array(
             'ViewJsonStrategy',
         ),
-    ),
-    // Placeholder for console routes
-    'console' => array(
-        'router' => array(
-            'routes' => array(
-            ),
-        ),
-    ),
+    )
 );

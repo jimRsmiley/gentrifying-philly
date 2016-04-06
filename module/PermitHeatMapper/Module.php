@@ -1,16 +1,11 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
 namespace PermitHeatMapper;
 
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Console\Adapter\Posix as Console;
+use Zend\Console\Color\Xterm256 as Color;
 
 class Module
 {
@@ -36,4 +31,12 @@ class Module
             ),
         );
     }
+
+	public function getConsoleUsage(Console $console)
+	{
+	    return array(
+		// Describe available commands
+		'initdb' => 'initialize the database'
+	    );
+	}
 }

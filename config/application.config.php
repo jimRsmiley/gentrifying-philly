@@ -6,8 +6,7 @@ return array(
     'modules' => array(
         'DoctrineModule',
         'DoctrineORMModule',
-        'PermitHeatMapper',
-        //'ZendDeveloperTools',
+        'PermitHeatMapper'
     ),
 
     // These are various options for the listeners attached to the ModuleManager
