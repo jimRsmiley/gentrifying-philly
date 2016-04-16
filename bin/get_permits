@@ -1,0 +1,7 @@
+#!/bin/sh
+
+docker run \
+	--rm \
+	--volumes-from "$CONST_PERM_NGINX_CONTAINER" \
+	"$CONST_PERM_NGINX_IMAGE" \
+	/bin/sh -c "cd /var/www/app; php scripts/get_permits_from_phlapi.php" 
