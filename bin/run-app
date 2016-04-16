@@ -1,10 +1,8 @@
 #!/bin/sh
 
-echo $*
-
 docker run \
-	--name constperm_run_app \
+	--name constperm_run_app_tmp \
 	--rm \
-	--volumes-from nginx \
-	constperm/nginx \
+	--volumes-from "$CONST_PERM_NGINX_CONTAINER" \
+	"$CONST_PERM_NGINX_IMAGE" \
 	/bin/sh -c "cd /var/www/app; php public/index.php $*"
