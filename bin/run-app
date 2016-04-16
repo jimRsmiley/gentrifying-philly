@@ -1,3 +1,10 @@
 #!/bin/sh
 
-docker exec -it nginx /bin/sh -c "cd /var/www/app; php public/index.php initdb"
+echo $*
+
+docker run \
+	--name constperm_run_app \
+	--rm \
+	--volumes-from nginx \
+	constperm/nginx \
+	/bin/sh -c "cd /var/www/app; php public/index.php $*"
