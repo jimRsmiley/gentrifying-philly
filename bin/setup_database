@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./bin/import_phila_neighborhoods
+./bin/import_permits
