@@ -33,11 +33,11 @@ foreach( $files as $file ) {
 
     foreach( $violationArray as $permitArray ) {
         $permit = new PermitHeatMapper\Entity\Permit( $permitArray );
-        
 		$permitMapper->save( $permit );
-		echo $counter . " " . $permit->toString() . "\n";
         
-        $counter++;
+		if (($counter++ % 1000) == 0) {
+			print "imported $counter permits into db\n";
+		}
     }
 }
 
