@@ -13,39 +13,39 @@ class NeighborhoodPermitCount {
 
     /**
     * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
+    * @ORM\GeneratedValue(strategy="IDENTITY")
     * @ORM\Column(type="integer")
     */
     protected $id;
 
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2007;
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2008;
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2009;
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2010;
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2011;
 
     /**
-     * @ORM\Column(type="integer",nullable=false)
+     * @ORM\Column(type="integer",nullable=true)
      */
 	protected $y2012;
 

@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo nginx image is $CONST_PERM_NGINX_IMAGE
+
 docker run \
 	--rm \
 	--volumes-from "$CONST_PERM_NGINX_CONTAINER" \

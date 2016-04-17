@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./bin/docker_run "vendor/bin/doctrine-module $*"
