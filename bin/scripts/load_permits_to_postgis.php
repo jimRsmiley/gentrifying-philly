@@ -11,7 +11,7 @@ $sm = Bootstrap::getServiceManager();
 
 chdir( dirname(__DIR__) );
 
-$dataDir = getcwd()."/../data";
+$dataDir = getcwd()."/../data/permits-json";
 $filePattern = 'permits.1.json';
 $filePattern = 'permits.\d*.json';
 
