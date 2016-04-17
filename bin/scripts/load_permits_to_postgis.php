@@ -34,10 +34,8 @@ foreach( $files as $file ) {
     foreach( $violationArray as $permitArray ) {
         $permit = new PermitHeatMapper\Entity\Permit( $permitArray );
         
-        if( $counter > 41966 ) {
-            $permitMapper->save( $permit );
-            echo $counter . " " . $permit->toString() . "\n";
-        }
+		$permitMapper->save( $permit );
+		echo $counter . " " . $permit->toString() . "\n";
         
         $counter++;
     }

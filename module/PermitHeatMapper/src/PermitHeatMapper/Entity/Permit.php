@@ -203,10 +203,6 @@ class Permit {
      */
     protected $point;
     
-    /**
-     * @ORM\ManyToMany(targetEntity="HeatMapGridSquare",mappedBy="permits")
-     */
-    protected $gridSquares;
     
     public function __construct( $array = null ) {
         

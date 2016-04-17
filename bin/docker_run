@@ -1,0 +1,8 @@
+#!/bin/sh
+
+docker run \
+	--name constperm_run_app_tmp \
+	--rm \
+	--volumes-from "$CONST_PERM_NGINX_CONTAINER" \
+	"$CONST_PERM_NGINX_IMAGE" \
+	/bin/sh -c "cd /var/www/app; $*"

@@ -8,7 +8,7 @@
  */
 
 $DB_NAME = 'gis';
-$HOSTNAME = 'postgres';
+$HOSTNAME = '172.17.0.2';
 $PORT = 5432;
 $USER = 'docker';
 $PASSWORD = 'docker';

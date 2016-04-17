@@ -2,8 +2,5 @@
 
 echo using nginx container name \'$CONST_PERM_NGINX_CONTAINER\'
 
-docker run \
-	--rm \
-	--volumes-from "$CONST_PERM_NGINX_CONTAINER" \
-	"$CONST_PERM_NGINX_IMAGE" \
-	/bin/sh -c "cd /var/www/app; php bin/scripts/load_permits_to_postgis.php" 
+./bin/docker_run "vendor/bin/doctrine-module orm:schema-tool:create"
+./bin/docker_run "php bin/scripts/load_permits_to_postgis.php" 
