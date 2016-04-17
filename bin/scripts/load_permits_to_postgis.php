@@ -9,17 +9,22 @@
 require 'Bootstrap.php';
 $sm = Bootstrap::getServiceManager();
 
-chdir(dirname(__DIR__));
+chdir( dirname(__DIR__) );
 
-$dataDir = 'data';
+$dataDir = getcwd()."/../data";
 $filePattern = 'permits.1.json';
 $filePattern = 'permits.\d*.json';
+
+print "data_dir=$dataDir\n";
 $files = getFiles($dataDir,$filePattern);
 
 
 $outFile = 'permits.csv';
 
 $counter = 1;
+
+print "loading ".count($files)." into database\n";
+
 foreach( $files as $file ) {
     $jsonObject = \Zend\Json\Json::decode( file_get_contents($file), \Zend\Json\Json::TYPE_ARRAY );
 
