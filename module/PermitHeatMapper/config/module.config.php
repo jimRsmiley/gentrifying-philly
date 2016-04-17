@@ -7,6 +7,12 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
+$DB_NAME = 'gis';
+$HOSTNAME = 'postgres';
+$PORT = 5432;
+$USER = 'docker';
+$PASSWORD = 'docker';
+
 return array(
     
     'doctrine' => array(
@@ -164,21 +170,21 @@ return array(
         'factories' => array(
             'Zend\Db\Adapter\Adapter' => function ($sm) {
                 $dbParams = array( 
-                    'hostname' => 'tioga.jimsmiley.us',
-                    'port'     => '5432',
-                    'user'     => 'landi',
-                    'password' => 'ApCFRDHvmWcxVdfjFZz0',
-                    'database' => 'landi',
+                    'hostname' => $HOSTNAME,
+                    'port'     => $PORT,
+                    'user'     => $USER,
+                    'password' => $PASSWORD,
+                    'database' => $DB_NAME
                 );
                 
                 $adapter = new BjyProfiler\Db\Adapter\ProfilingAdapter(array(
                     'driver'    => 'pdo',
-                    'dsn'       => 'pgsql:host=tioga.jimsmiley.us;port=5432;dbname=landi;user=landi;password=ApCFRDHvmWcxVdfjFZz0',
+                    'dsn'       => sprintf('pgsql:host=%s;port=%s;dbname=%s;user=$s;password=%s', $HOSTNAME, $PORT, $DB_NAME, $USER, $PASSWORD),
                     //'dsn'       => 'mysql:dbname='.$dbParams['database'].';host='.$dbParams['hostname'],
-                    'database'  => 'landi',
-                    'username'  => 'landi',
-                    'password'  => 'ApCFRDHvmWcxVdfjFZz0',
-                    'hostname'  => 'tioga.jimsmiley.us',
+                    'database'  => $DB_NAME,
+                    'username'  => $USER,
+                    'password'  => $PASSWORD,
+                    'hostname'  => $HOSTNAME
                 ));
                 if (php_sapi_name() == 'cli') {
                     $logger = new Zend\Log\Logger();
