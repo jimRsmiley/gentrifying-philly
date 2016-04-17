@@ -16,7 +16,20 @@ $PASSWORD = 'docker';
 return array(
     
     'doctrine' => array(
-        'driver' => array(
+		'connection' => array(
+			// default connection name
+			'orm_default' => array(
+				'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
+				'params' => array(
+					'host'     => $HOSTNAME,
+					'port'     => $PORT,
+					'user'     => $USER,
+					'password' => $PASSWORD,
+					'dbname'   => $DB_NAME
+				)
+			)
+		),
+     	'driver' => array(
           'application_entities' => array(
             'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
             'cache' => 'array',
@@ -29,6 +42,7 @@ return array(
                 )
             )
         ),
+		
         'configuration' => array(
             'orm_default' => array(
                 'types' => array(
