@@ -180,7 +180,6 @@ return array(
                 $adapter = new BjyProfiler\Db\Adapter\ProfilingAdapter(array(
                     'driver'    => 'pdo',
                     'dsn'       => sprintf('pgsql:host=%s;port=%s;dbname=%s;user=$s;password=%s', $HOSTNAME, $PORT, $DB_NAME, $USER, $PASSWORD),
-                    //'dsn'       => 'mysql:dbname='.$dbParams['database'].';host='.$dbParams['hostname'],
                     'database'  => $DB_NAME,
                     'username'  => $USER,
                     'password'  => $PASSWORD,
