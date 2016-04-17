@@ -1,8 +1,13 @@
 <?php
+
 namespace PermitHeatMapper\Entity;
+
+include("/var/www/app/vendor/autoload.php");
+
 use Doctrine\ORM\Mapping as ORM;
-use \Proj4php;
-use \Proj4phpProj;
+use proj4php\Proj4php as Proj4php;
+use proj4php\Proj as Proj4phpProj;
+use proj4php\Point as Proj4phpPoint;
 use CrEOF\Spatial\PHP\Types\Geometry\Point;
 /** 
  * 
@@ -582,9 +587,11 @@ class Permit {
             return;
         
         $proj4 = new Proj4php();
+		$proj4->addDef("EPSG:2272", '+proj=lcc +lat_1=40.96666666666667 +lat_2=39.93333333333333 +lat_0=39.33333333333334 +lon_0=-77.75 +x_0=600000 +y_0=0 +ellps=GRS80 +datum=NAD83 +to_meter=0.3048006096012192 +no_defs');
+
         $statePlane2272 = new Proj4phpProj('EPSG:2272',$proj4);
         $projWGS84 = new Proj4phpProj('EPSG:4326',$proj4);
-        $pointSrc = new \proj4phpPoint( $this->getX(),$this->getY() );
+        $pointSrc = new Proj4PhpPoint( $this->getX(),$this->getY() );
         $pointDest = $proj4->transform($statePlane2272,$projWGS84,$pointSrc);
 
         $this->lat = $pointDest->y;
