@@ -61,7 +61,7 @@ var ChangingPhlMap = L.Map.extend( {
     locationCountsUrl : "/permit-heat-mapper/neighborhood-permit-count/location-counts-by-neighborhood-as-geojson",
     
     self : this,
-    
+
     addStreetsLayer : function() {
         this.setView([39.95058520078959, -75.14893589832354], 11);
         L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
@@ -108,7 +108,6 @@ var YearlyChangeMap = ChangingPhlMap.extend( {
             //context: document.body,
             success: function( data ) {
                 geoJson = data;
-                console.log( 'loaded data from: ' + window.location.origin + self.locationCountsUrl );
                 self.loadData(self,2012,2013);
 				self.addStreetsLayer();
             }
@@ -116,9 +115,7 @@ var YearlyChangeMap = ChangingPhlMap.extend( {
 
         $("select").change( function() {
             var selectedOptions = $( "select option:selected" );
-            console.log('they want to change years');
             json = JSON.parse(selectedOptions[0].value);
-            console.log( json );
             self.loadData(self,json.start,json.end);
             self.spin(false, self.getSpinnerOptions() );
         });
@@ -188,7 +185,6 @@ var AverageChangeMap = ChangingPhlMap.extend( {
             context: self,
             success: function( data ) {
                 self.geoJson = data;
-                console.log( 'loading data from: ' + window.location.origin + this.locationCountsUrl );
                 if( typeof this.geoJsonLayer !== 'undefined' )
                     this.removeLayer( this.geoJsonLayer );
 
