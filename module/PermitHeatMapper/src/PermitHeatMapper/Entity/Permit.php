@@ -593,7 +593,7 @@ class Permit {
         $this->lat = $pointDest->y;
         $this->lng = $pointDest->x;
 
-        $this->setPoint( new Point( $this->lng, $this->lat, 4326 ) );
+        $this->setPoint( new Point( $pointDest->x, $pointDest->y, 4326 ) );
     }
     
     public function getFullAddress() {
