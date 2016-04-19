@@ -110,6 +110,7 @@ var YearlyChangeMap = ChangingPhlMap.extend( {
                 geoJson = data;
                 console.log( 'loaded data from: ' + window.location.origin + self.locationCountsUrl );
                 self.loadData(self,2012,2013);
+				self.addStreetsLayer();
             }
         });
 
