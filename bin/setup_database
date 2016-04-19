@@ -1,6 +1,6 @@
 #!/bin/sh
 
+./bin/doctrine-module orm:schema-tool:create
 ./bin/import_phila_neighborhoods
 ./bin/import_permits
-
 ./bin/docker_run 'export PGPASSWORD=docker; psql -h postgres -U docker -d gis -f bin/scripts/sql/insert_into_neighborhood_location_count.sql'
